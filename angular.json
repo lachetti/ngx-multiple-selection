@@ -3,5 +3,36 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
+    "ngx-multiple-selection": {
+      "projectType": "library",
+      "root": "projects/ngx-multiple-selection",
+      "sourceRoot": "projects/ngx-multiple-selection/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/ngx-multiple-selection/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-multiple-selection/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ngx-multiple-selection/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-multiple-selection/src/test.ts",
+            "tsConfig": "projects/ngx-multiple-selection/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-multiple-selection/karma.conf.js"
+          }
+        }
+      }
+    }
   }
 }
