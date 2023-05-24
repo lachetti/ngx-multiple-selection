@@ -1,14 +1,14 @@
 # Angular Multiple Selection Module
 A library that allows using two directives to implement multiple selection of elements
 
-##Installation
+## Installation
 
-###Using npm
+### Using npm
 ```
 npm install angular-multiple-selection
 ```
 
-##Usage
+## Usage
 * Add the module to the imports in the module where the multiple-selection will be used `imports: [NgxMultipleSelectionModule]`
 
 * Add `ngxMultipleSelectionZone` attribute to element where selectable items will be located
@@ -50,24 +50,24 @@ npm install angular-multiple-selection
 </div>
 ```
 
-##API
+## API
 `import { NgxMultipleSelectionModule } from 'ngx-multiple-selection-module'`<br>
 Zone selector: `ngxMultipleSelectionZone`
 Item selector: `ngxMultipleSelectionItem`
 
 Each selectable item has it`s own angular scope with variables
-####ngxMultipleSelectionItem scope
+#### ngxMultipleSelectionItem scope
 | Name          | Type    | Description                |
 | ------------- | ------- | -------------------------- |
 | isSelected    | boolean | `true` if element selected |
 | nativeElement | Element | Element reference          |
 
-####ngxMultipleSelectionItem @Input()
+#### ngxMultipleSelectionItem @Input()
 | Input                    | Type | Description                                           |
 | ------------------------ | ---- | ----------------------------------------------------- |
 | ngxMultipleSelectionItem | T    | Data will be passed with `selectedItemsChange` Output |
 
-####ngxMultipleSelectionItem @Output()
+#### ngxMultipleSelectionItem @Output()
 | Input               | Type | Description                                                          |
 | ------------------- | ---- | -------------------------------------------------------------------- |
 | selectedItemsChange | T[]  | Emits on change selection and represent array of selected items data |

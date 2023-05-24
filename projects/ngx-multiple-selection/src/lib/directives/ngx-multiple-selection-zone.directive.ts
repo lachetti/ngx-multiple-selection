@@ -110,7 +110,7 @@ export class NgxMultipleSelectionZoneDirective implements AfterViewInit {
     this.#selection.resize(this.#selection.startPoint, this.#selection.startPoint);
     this.#selection.show();
 
-    document.addEventListener('mouseup', this.#mouseUpHandler);
+    document.addEventListener('mouseup', this.#mouseUpHandler, { once: true });
     document.addEventListener('mousemove', this.#mouseMoveHandler);
 
     $event.stopPropagation();
@@ -129,7 +129,6 @@ export class NgxMultipleSelectionZoneDirective implements AfterViewInit {
       this.#emitSelectedItemsData();
     }
 
-    document.removeEventListener('mouseup', this.#mouseUpHandler);
     document.removeEventListener('mousemove', this.#mouseMoveHandler);
 
     this.#selection.hide();

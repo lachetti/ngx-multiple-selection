@@ -16,4 +16,4 @@ import { NgxMultipleSelectionItemDirective } from './directives/ngx-multiple-sel
     NgxMultipleSelectionItemDirective
   ]
 })
-export class MultipleSelectionModule { }
+export class NgxMultipleSelectionModule { }
