@@ -1,27 +1,73 @@
-# AngularLibWorkspace
+# Angular Multiple Selection Module
+A library that allows using two directives to implement multiple selection of elements
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.10.
+##Installation
 
-## Development server
+###Using npm
+```
+npm install angular-multiple-selection
+```
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+##Usage
+* Add the module to the imports in the module where the multiple-selection will be used `imports: [NgxMultipleSelectionModule]`
 
-## Code scaffolding
+* Add `ngxMultipleSelectionZone` attribute to element where selectable items will be located
+```html
+<div ngxMultipleSelectionZone>
+  //Add selectable items here
+</div>
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+* Add `selectedItemsChange` attribute to set output handler ($event is array of selected items data)
+```html
+<div ngxMultipleSelectionZone
+  (selectedItemsChange)="onSelectItems($event)"
+>
+  //Add selectable items here
+</div>
+```
 
-## Build
+* Add `ngxMultipleSelectionItem` attribute to each selectable item and pass data to this attribute
+```html
+<div ngxMultipleSelectionZone
+  (selectedItemsChange)="onSelectItems($event)"
+>
+  <div [appMultipleSelectionItem]="1">1</div>
+  <div [appMultipleSelectionItem]="2">2</div>
+  <div [appMultipleSelectionItem]="3">3</div>
+</div>
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+* You can set variable `#selectableItem` to see if an item is selected
+```html
+<div ngxMultipleSelectionZone
+  (selectedItemsChange)="onSelectItems($event)"
+>
+  <div [appMultipleSelectionItem]="1"
+    #selectableItem="selectableItem"
+    [class.selected]="selectableItem.isSelected"
+  >1</div>
+</div>
+```
 
-## Running unit tests
+##API
+`import { NgxMultipleSelectionModule } from 'ngx-multiple-selection-module'`<br>
+Zone selector: `ngxMultipleSelectionZone`
+Item selector: `ngxMultipleSelectionItem`
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Each selectable item has it`s own angular scope with variables
+####ngxMultipleSelectionItem scope
+| Name          | Type    | Description                |
+| ------------- | ------- | -------------------------- |
+| isSelected    | boolean | `true` if element selected |
+| nativeElement | Element | Element reference          |
 
-## Running end-to-end tests
+####ngxMultipleSelectionItem @Input()
+| Input                    | Type | Description                                           |
+| ------------------------ | ---- | ----------------------------------------------------- |
+| ngxMultipleSelectionItem | T    | Data will be passed with `selectedItemsChange` Output |
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+####ngxMultipleSelectionItem @Output()
+| Input               | Type | Description                                                          |
+| ------------------- | ---- | -------------------------------------------------------------------- |
+| selectedItemsChange | T[]  | Emits on change selection and represent array of selected items data |
