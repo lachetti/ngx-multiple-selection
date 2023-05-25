@@ -1,5 +1,5 @@
 import {
-  AfterViewInit,
+  AfterContentInit,
   ContentChildren,
   Directive,
   ElementRef,
@@ -19,9 +19,9 @@ interface IPoint {
 @Directive({
   selector: '[ngxMultipleSelectionZone]'
 })
-export class NgxMultipleSelectionZoneDirective implements AfterViewInit {
+export class NgxMultipleSelectionZoneDirective implements AfterContentInit {
   @Output() public selectedItemsChange = new EventEmitter<unknown[]>();
-  @ContentChildren(NgxMultipleSelectionItemDirective) childrenItems!: QueryList<NgxMultipleSelectionItemDirective>;
+  @ContentChildren(NgxMultipleSelectionItemDirective, {descendants: true}) childrenItems!: QueryList<NgxMultipleSelectionItemDirective>;
 
   #selectableItems: NgxMultipleSelectionItemDirective[] = [];
   #selectedItems: Set<NgxMultipleSelectionItemDirective> = new Set();
@@ -198,10 +198,14 @@ export class NgxMultipleSelectionZoneDirective implements AfterViewInit {
   #mouseUpHandler = (): void => this.#endSelection();
   #mouseMoveHandler = (e: MouseEvent): void => this.#onMouseMove(e);
 
-  ngAfterViewInit() {
+  ngAfterContentInit() {
     this.#zoneRect = this.el.nativeElement.getBoundingClientRect();
     this.#selectableItems = this.childrenItems.toArray();
     this.renderer.appendChild(this.el.nativeElement, this.#selection.element);
     this.#selection.hide();
+
+    this.childrenItems.changes.subscribe((changes) => {
+      this.#selectableItems = changes.toArray();
+    });
   }
 }

@@ -67,7 +67,7 @@ Each selectable item has it`s own angular scope with variables
 | ------------------------ | ---- | ----------------------------------------------------- |
 | ngxMultipleSelectionItem | T    | Data will be passed with `selectedItemsChange` Output |
 
-#### ngxMultipleSelectionItem @Output()
+#### ngxMultipleSelectionZone @Output()
 | Input               | Type | Description                                                          |
 | ------------------- | ---- | -------------------------------------------------------------------- |
 | selectedItemsChange | T[]  | Emits on change selection and represent array of selected items data |

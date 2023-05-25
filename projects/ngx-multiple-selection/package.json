@@ -1,6 +1,6 @@
 {
   "name": "ngx-multiple-selection",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A library that allows using two directives to implement multiple selection of elements",
   "author": "lachetti",
   "repository": {
@@ -13,8 +13,14 @@
   "homepage": "https://github.com/lachetti/ngx-multiple-selection",
   "keywords": [
     "angular",
+    "angularjs",
     "typescript",
-    "module"
+    "javascript",
+    "module",
+    "directive",
+    "selection",
+    "multiselect",
+    "allocation"
   ],
   "peerDependencies": {
     "@angular/common": "^14.2.0",
