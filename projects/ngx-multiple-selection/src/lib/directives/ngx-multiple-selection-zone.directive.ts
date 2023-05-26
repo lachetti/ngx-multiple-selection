@@ -1,15 +1,15 @@
 import {
-  AfterContentInit,
-  ContentChildren,
   Directive,
   ElementRef,
   EventEmitter,
   HostListener,
+  OnDestroy,
+  OnInit,
   Output,
-  QueryList,
   Renderer2,
 } from '@angular/core';
 import { NgxMultipleSelectionItemDirective } from './ngx-multiple-selection-item.directive';
+import { NgxMultipleSelectionService } from '../ngx-multiple-selection.service';
 
 interface IPoint {
   x: number;
@@ -19,11 +19,11 @@ interface IPoint {
 @Directive({
   selector: '[ngxMultipleSelectionZone]'
 })
-export class NgxMultipleSelectionZoneDirective implements AfterContentInit {
+export class NgxMultipleSelectionZoneDirective implements OnInit, OnDestroy {
   @Output() public selectedItemsChange = new EventEmitter<unknown[]>();
-  @ContentChildren(NgxMultipleSelectionItemDirective, {descendants: true}) childrenItems!: QueryList<NgxMultipleSelectionItemDirective>;
+  nativeElement: Element;
 
-  #selectableItems: NgxMultipleSelectionItemDirective[] = [];
+  #selectableItems!: Set<NgxMultipleSelectionItemDirective>;
   #selectedItems: Set<NgxMultipleSelectionItemDirective> = new Set();
   #zoneRect: DOMRect = {
     top: 0,
@@ -62,7 +62,10 @@ export class NgxMultipleSelectionZoneDirective implements AfterContentInit {
     },
   };
 
-  constructor(private el: ElementRef, private renderer: Renderer2) {
+  constructor(private el: ElementRef, private renderer: Renderer2, private service: NgxMultipleSelectionService) {
+    this.service.addGroup(this);
+
+    this.nativeElement = this.el.nativeElement;
     this.el.nativeElement.style.position = 'relative';
     this.#selection.element.style.position = 'absolute';
     this.#selection.element.style['background-color'] = 'rgba(0, 0, 255, 0.1)';
@@ -70,7 +73,7 @@ export class NgxMultipleSelectionZoneDirective implements AfterContentInit {
   }
 
   @HostListener('mousedown', ['$event']) onMouseDown($event: MouseEvent): void {
-    const targetItem = this.#selectableItems
+    const targetItem = [...this.#selectableItems]
       .find((item) => item.nativeElement.contains($event.target as Node));
 
     if (!targetItem) {
@@ -119,7 +122,7 @@ export class NgxMultipleSelectionZoneDirective implements AfterContentInit {
 
   #endSelection(): void {
     const selectionBorders = this.#selection.element.getBoundingClientRect();
-    const selectingItems = this.#selectableItems.filter((item) =>
+    const selectingItems = [...this.#selectableItems].filter((item) =>
       this.#isIntersects(selectionBorders, item.nativeElement.getBoundingClientRect())
     );
 
@@ -189,7 +192,7 @@ export class NgxMultipleSelectionZoneDirective implements AfterContentInit {
   }
 
   #deselectAll(): void {
-    this.#selectableItems
+    [...this.#selectableItems]
       .forEach((item) => item.isSelected = false);
 
     this.#selectedItems.clear();
@@ -198,14 +201,19 @@ export class NgxMultipleSelectionZoneDirective implements AfterContentInit {
   #mouseUpHandler = (): void => this.#endSelection();
   #mouseMoveHandler = (e: MouseEvent): void => this.#onMouseMove(e);
 
-  ngAfterContentInit() {
+  ngOnInit() {
     this.#zoneRect = this.el.nativeElement.getBoundingClientRect();
-    this.#selectableItems = this.childrenItems.toArray();
     this.renderer.appendChild(this.el.nativeElement, this.#selection.element);
     this.#selection.hide();
 
-    this.childrenItems.changes.subscribe((changes) => {
-      this.#selectableItems = changes.toArray();
-    });
+    const itemsGroup = this.service.selectableItemsGroups.get(this);
+
+    if (itemsGroup) {
+      this.#selectableItems = itemsGroup;
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.service.removeGroup(this);
   }
 }

@@ -5,3 +5,4 @@
 export * from './lib/directives/ngx-multiple-selection-item.directive';
 export * from './lib/directives/ngx-multiple-selection-zone.directive';
 export * from './lib/ngx-multiple-selection.module';
+export * from './lib/ngx-multiple-selection.service';

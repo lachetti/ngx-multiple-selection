@@ -9,7 +9,7 @@ import { NgxMultipleSelectionItemDirective } from './directives/ngx-multiple-sel
     NgxMultipleSelectionItemDirective
   ],
   imports: [
-    CommonModule
+    CommonModule,
   ],
   exports: [
     NgxMultipleSelectionZoneDirective,
