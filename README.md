@@ -5,7 +5,7 @@ A library that allows using two directives to implement multiple selection of el
 
 ### Using npm
 ```
-npm install angular-multiple-selection
+npm install ngx-multiple-selection
 ```
 
 ## Usage
