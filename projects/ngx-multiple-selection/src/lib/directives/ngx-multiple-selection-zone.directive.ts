@@ -55,8 +55,8 @@ export class NgxMultipleSelectionZoneDirective implements OnInit, OnDestroy {
       const width = endPoint.x - startPoint.x;
       const height = endPoint.y - startPoint.y;
 
-      this.#selection.element.style.left = (width < 0 ? endPoint.x : startPoint.x)  + 'px';
-      this.#selection.element.style.top = (height < 0 ? endPoint.y : startPoint.y)  + 'px';
+      this.#selection.element.style.left = (width < 0 ? endPoint.x : startPoint.x) + 'px';
+      this.#selection.element.style.top = (height < 0 ? endPoint.y : startPoint.y) + 'px';
       this.#selection.element.style.width = Math.abs(width) + 'px';
       this.#selection.element.style.height = Math.abs(height) + 'px';
     },
@@ -68,8 +68,9 @@ export class NgxMultipleSelectionZoneDirective implements OnInit, OnDestroy {
     this.nativeElement = this.el.nativeElement;
     this.el.nativeElement.style.position = 'relative';
     this.#selection.element.style.position = 'absolute';
-    this.#selection.element.style['background-color'] = 'rgba(0, 0, 255, 0.1)';
-    this.#selection.element.style['border'] = 'solid 1px blue';
+    this.#selection.element.style['background-color'] = 'rgba(255,255,255,0.3)';
+    this.#selection.element.style['border'] = '1px solid #3b9df9';
+    this.#selection.element.classList.add('multiple-selection-rect');
   }
 
   @HostListener('mousedown', ['$event']) onMouseDown($event: MouseEvent): void {
